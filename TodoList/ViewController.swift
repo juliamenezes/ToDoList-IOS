@@ -58,5 +58,13 @@ class ViewController: UIViewController, UITableViewDataSource {
         cell.textLabel?.text = todoList[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            todoList.remove(at: indexPath.row)
+            UserDefaults.standard.set(todoList, forKey: listKey)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 

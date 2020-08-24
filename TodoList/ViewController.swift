@@ -13,10 +13,14 @@ class ViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
     var todoList: [String] = []
+    let listKey = "listKey"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        if let list = UserDefaults.standard.value(forKey: listKey) as? [String] {
+            todoList.append(contentsOf: list)
+        }
     }
 
     @IBAction func addTask(_ sender: Any) {
@@ -33,6 +37,7 @@ class ViewController: UIViewController, UITableViewDataSource {
                 if let textField = alert.textFields?.first, let text = textField.text {
                     self.todoList.append(text)
                     self.tableView.reloadData()
+                    UserDefaults.standard.set(self.todoList, forKey: self.listKey)
                 }
         }
         
